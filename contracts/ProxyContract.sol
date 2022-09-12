@@ -6,18 +6,26 @@ import './ImplementationContract.sol';
 
 contract ProxyContract {
     address public implementationAddress;
-    address owner ;
-
+    address  owner ;
+    uint public value;
     constructor(){
         owner = msg.sender;
     }
 
-    function setValue(uint256 _value) public {
+    function setValue(uint256 _value) public returns(bool){
+        // (bool success,)=implementationAddress.delegatecall(
+        //     abi.encodeWithSignature('setValue(uint256)',_value)
+        // );
         (bool success, bytes memory data) = implementationAddress.delegatecall(
-            abi.encodeWithSelector(implementationContract.setValue.selector, _value)
+            abi.encodeWithSelector(ImplementationContract.setValue.selector, _value)
         );
-        require(success,'Delegate Call Successful');
+        return success;
+        
+       //require(success,'Delegate Call Successful');
     }
     
-    
+    function changeAddress(address _implementationAddress) public {
+        require(msg.sender == owner , 'only owner');
+        implementationAddress = _implementationAddress;
+    }
 }

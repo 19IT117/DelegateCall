@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity >=0.7.0 <0.9.0;
-contract implementationContract{
+contract ImplementationContract {
     address public implementationAddress;
     address owner ;
-    uint value;
+    uint public value;
     function setValue(uint _value) public{
-        value = _value;
+        value = 7*_value;
     }
-    
+
 }
